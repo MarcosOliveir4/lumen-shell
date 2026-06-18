@@ -52,6 +52,7 @@
             "buildTarget": "lumen-shell:esbuild",
             "coverage": true,
             "watch": false,
+            "coverageReporters": ["lcov", "html"],
             "setupFiles": ["./vitest-setup.ts"],
             "coverageThresholds": {
               "branches": 90,
