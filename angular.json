@@ -19,6 +19,55 @@
       "prefix": "app",
       "architect": {
         "build": {
+          "builder": "@angular-architects/native-federation:build",
+          "options": {
+            "cacheExternalArtifacts": true,
+            "styles": ["src/material-theme.scss"]
+          },
+          "configurations": {
+            "production": {
+              "target": "lumen-shell:esbuild:production"
+            },
+            "development": {
+              "target": "lumen-shell:esbuild:development",
+              "dev": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-architects/native-federation:build",
+          "options": {
+            "target": "lumen-shell:serve-original:development",
+            "rebuildDelay": 500,
+            "cacheExternalArtifacts": true,
+            "dev": true,
+            "devServer": true,
+            "port": 0
+          }
+        },
+        "test": {
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "buildTarget": "lumen-shell:esbuild",
+            "coverage": true,
+            "watch": false,
+            "setupFiles": ["./vitest-setup.ts"],
+            "coverageThresholds": {
+              "branches": 90,
+              "functions": 90,
+              "lines": 90,
+              "statements": 90
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
+          }
+        },
+        "esbuild": {
           "builder": "@angular/build:application",
           "options": {
             "browser": "src/main.ts",
@@ -30,7 +79,8 @@
                 "input": "public"
               }
             ],
-            "styles": ["src/styles.scss"]
+            "styles": ["src/styles.scss"],
+            "polyfills": ["es-module-shims"]
           },
           "configurations": {
             "production": {
@@ -56,35 +106,19 @@
           },
           "defaultConfiguration": "production"
         },
-        "serve": {
+        "serve-original": {
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "lumen-shell:build:production"
+              "buildTarget": "lumen-shell:esbuild:production"
             },
             "development": {
-              "buildTarget": "lumen-shell:build:development"
+              "buildTarget": "lumen-shell:esbuild:development"
             }
           },
-          "defaultConfiguration": "development"
-        },
-        "test": {
-          "builder": "@angular/build:unit-test",
+          "defaultConfiguration": "development",
           "options": {
-            "coverage": true,
-            "watch": false,
-            "coverageThresholds": {
-              "branches": 90,
-              "functions": 90,
-              "lines": 90,
-              "statements": 90
-            }
-          }
-        },
-        "lint": {
-          "builder": "@angular-eslint/builder:lint",
-          "options": {
-            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
+            "port": 4200
           }
         }
       }
