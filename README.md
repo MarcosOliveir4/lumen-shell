@@ -1,3 +1,5 @@
+[![Maintainability](https://qlty.sh/gh/MarcosOliveir4/projects/lumen-shell/maintainability.svg)](https://qlty.sh/gh/MarcosOliveir4/projects/lumen-shell)
+[![Code Coverage](https://qlty.sh/gh/MarcosOliveir4/projects/lumen-shell/coverage.svg)](https://qlty.sh/gh/MarcosOliveir4/projects/lumen-shell)
 # LumenShell
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.0.2.
