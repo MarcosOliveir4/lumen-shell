@@ -1,0 +1,15 @@
+@if (user()) {
+  <div [matMenuTriggerFor]="menu" data-testid="avatar">
+    <button matMiniFab aria-label="Example icon button with a menu icon">
+      <mat-icon
+        aria-hidden="false"
+        aria-label="Example home icon"
+        fontIcon="account_circle"
+      ></mat-icon>
+    </button>
+  </div>
+  <mat-menu #menu="matMenu">
+    <p class="avatar-name">Olá, {{ user()?.displayName }}</p>
+    <button data-testid="avatar-logout" (click)="logout()" mat-menu-item>Sair</button>
+  </mat-menu>
+}
