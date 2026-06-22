@@ -1,0 +1,110 @@
+<div class="login-container" data-testid="login-container">
+  <mat-card class="login-card elevation-z4">
+    <mat-card-header class="login-header">
+      <mat-card-title data-testid="login-title">
+        @if (isLoginMode()) {
+          Entrar no Lumen 🔮
+        } @else {
+          Criar sua Conta ✨
+        }
+      </mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content class="login-content">
+      <form [formGroup]="authForm" (ngSubmit)="onSubmit()" autocomplete="off">
+        @if (!isLoginMode()) {
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Nome Completo</mat-label>
+            <input
+              matInput
+              formControlName="name"
+              placeholder="Ex: joão de maria da silva"
+              autocomplete="name"
+              data-testid="name-input"
+            />
+            <mat-icon matSuffix>person</mat-icon>
+            @if (authForm.controls.name.hasError('required')) {
+              <mat-error data-testid="name-error">O nome é obrigatório</mat-error>
+            }
+          </mat-form-field>
+        }
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>E-mail</mat-label>
+          <input
+            matInput
+            formControlName="email"
+            type="email"
+            placeholder="seu-email@lumen.com"
+            autocomplete="email"
+            data-testid="email-input"
+          />
+          <mat-icon matSuffix>email</mat-icon>
+          @if (authForm.controls.email.hasError('email')) {
+            <mat-error data-testid="email-error">Insira um e-mail válido</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Senha</mat-label>
+          <input
+            matInput
+            formControlName="password"
+            [type]="hidePassword() ? 'password' : 'text'"
+            autocomplete="current-password"
+            data-testid="password-input"
+          />
+          <button
+            mat-icon-button
+            matSuffix
+            type="button"
+            (click)="hidePassword.set(!hidePassword())"
+            [attr.aria-label]="'Esconder senha'"
+            data-testid="toggle-password-btn"
+          >
+            <mat-icon>{{ hidePassword() ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+          @if (authForm.controls.password.hasError('minlength')) {
+            <mat-error data-testid="password-error"
+              >A senha precisa ter no mínimo 6 caracteres</mat-error
+            >
+          }
+        </mat-form-field>
+
+        @if (errorMessage()) {
+          <div class="error-alert" data-testid="error-alert">
+            <mat-icon>error</mat-icon>
+            <span>{{ errorMessage() }}</span>
+          </div>
+        }
+
+        <button
+          mat-raised-button
+          color="primary"
+          class="full-width submit-btn"
+          type="submit"
+          [disabled]="authForm.invalid || isLoading()"
+          data-testid="submit-btn"
+        >
+          @if (isLoading()) {
+            Carregando...
+          } @else if (isLoginMode()) {
+            Entrar
+          } @else {
+            Concluir Cadastro
+          }
+        </button>
+      </form>
+    </mat-card-content>
+
+    <mat-card-actions class="login-actions">
+      <button mat-button type="button" (click)="toggleMode()" data-testid="toggle-mode-btn">
+        @if (isLoginMode()) {
+          Não tem conta? Cadastre-se
+        } @else {
+          Já tem uma conta? Faça Login
+        }
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>

@@ -1,16 +1,8 @@
-<header
-  data-testid="app"
-  style="background: #121212; color: #fff; padding: 10px 20px; display: flex; gap: 20px"
->
+<header class="app" data-testid="app">
   <h2>Lumen Shell 🔮</h2>
-  <nav style="display: flex; align-items: center; gap: 15px">
-    <a routerLink="/" style="color: #fff; text-decoration: none">Início</a>
-    <a routerLink="/kanban" style="color: #a855f7; text-decoration: none; font-weight: bold"
-      >Modulo Kanban</a
-    >
-  </nav>
+  <app-avatar />
 </header>
 
-<main style="padding: 20px">
+<main>
   <router-outlet></router-outlet>
 </main>
