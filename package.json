@@ -26,6 +26,7 @@
     "@angular/platform-browser": "^22.0.0",
     "@angular/router": "^22.0.0",
     "es-module-shims": "^2.8.0",
+    "firebase": "^12.15.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
   },
@@ -54,13 +55,15 @@
     "prettier": "^3.8.1",
     "typescript": "~6.0.2",
     "typescript-eslint": "8.60.1",
-    "vitest": "^4.0.8"
+    "vitest": "^4.1.9"
   },
   "allowScripts": {
     "@parcel/watcher@2.5.6": true,
     "esbuild@0.28.1": true,
     "esbuild@0.27.7": true,
     "lmdb@3.5.4": true,
-    "msgpackr-extract@3.0.4": true
+    "msgpackr-extract@3.0.4": true,
+    "@firebase/util@1.15.1": true,
+    "protobufjs@7.6.4": true
   }
 }
