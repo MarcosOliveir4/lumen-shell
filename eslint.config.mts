@@ -19,7 +19,7 @@ export default defineConfig(
         'error',
         {
           type: 'attribute',
-          prefix: 'app', // Dica: no futuro, você pode mudar para 'shell' ou 'kanban' para diferenciar os MFEs
+          prefix: 'app',
           style: 'camelCase',
         },
       ],
@@ -27,7 +27,7 @@ export default defineConfig(
         'error',
         {
           type: 'element',
-          prefix: 'app', // Dica: no futuro, você pode mudar para 'shell' ou 'kanban'
+          prefix: 'app',
           style: 'kebab-case',
         },
       ],
