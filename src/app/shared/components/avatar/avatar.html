@@ -10,6 +10,11 @@
   </div>
   <mat-menu #menu="matMenu">
     <p class="avatar-name">Olá, {{ user()?.displayName }}</p>
+    @if (isAdmin()) {
+      <button data-testid="avatar-admin" (click)="redirectTo('/admin-panel')" mat-menu-item>
+        Administração
+      </button>
+    }
     <button data-testid="avatar-logout" (click)="logout()" mat-menu-item>Sair</button>
   </mat-menu>
 }

@@ -1,0 +1,18 @@
+<section class="card-grid">
+  @for (card of cards(); track $index) {
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>{{ card.icon }}</mat-icon>
+          {{ card.title }}
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>{{ card.description }}</p>
+      </mat-card-content>
+      <mat-card-actions>
+        <button (click)="redirectTo(card.link)" matButton>acessar</button>
+      </mat-card-actions>
+    </mat-card>
+  }
+</section>
