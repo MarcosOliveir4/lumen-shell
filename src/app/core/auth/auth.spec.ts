@@ -12,6 +12,7 @@ const mocks = vi.hoisted(() => ({
   mockSignOut: vi.fn<(auth: FirebaseAuth) => Promise<void>>(),
   mockUpdateProfile: vi.fn<(user: User, data: { displayName?: string | null }) => Promise<void>>(),
   mockGetAuth: vi.fn<() => FirebaseAuth>().mockReturnValue({} as FirebaseAuth),
+  mockGetIdTokenResult: vi.fn<() => FirebaseAuth>().mockReturnValue({} as FirebaseAuth),
 }));
 
 type AuthStateCallback = (user: User | null) => void;
@@ -31,6 +32,7 @@ vi.mock('firebase/auth', () => ({
   signInWithEmailAndPassword: mocks.mockSignIn,
   signOut: mocks.mockSignOut,
   updateProfile: mocks.mockUpdateProfile,
+  getIdTokenResult: mocks.mockGetIdTokenResult,
 }));
 
 describe('Auth Service', () => {
@@ -44,6 +46,10 @@ describe('Auth Service', () => {
     getIdToken: vi
       .fn<(forceRefresh?: boolean) => Promise<string>>()
       .mockResolvedValue('fake-jwt-token'),
+    getIdTokenResult: vi.fn().mockResolvedValue({
+      token: 'fake-jwt-token',
+      claims: {},
+    }),
   };
 
   const fullMockUser = partialMockUser as User;
@@ -73,7 +79,7 @@ describe('Auth Service', () => {
     it('deve guardar o token no sessionStorage se houver utilizador logado', async () => {
       await authStateCallback(fullMockUser);
 
-      expect(fullMockUser.getIdToken).toHaveBeenCalled();
+      expect(fullMockUser.getIdTokenResult).toHaveBeenCalled();
       expect(sessionStorage.setItem).toHaveBeenCalledWith('lumen_token', 'fake-jwt-token');
 
       service.getUser().subscribe((user: User | null) => {
@@ -88,7 +94,7 @@ describe('Auth Service', () => {
   });
 
   describe('registerWithEmail', () => {
-    it('deve registar, atualizar perfil, atualizar signal e navegar para o kanban em caso de sucesso', async () => {
+    it('deve registar, atualizar perfil, atualizar signal e navegar para o modules em caso de sucesso', async () => {
       const mockCredential: Partial<UserCredential> = { user: fullMockUser };
 
       mocks.mockCreateUser.mockResolvedValue(mockCredential as UserCredential);
@@ -102,7 +108,7 @@ describe('Auth Service', () => {
         '123456',
       );
       expect(mocks.mockUpdateProfile).toHaveBeenCalledWith(fullMockUser, { displayName: 'Marcos' });
-      expect(routerSpy.navigate).toHaveBeenCalledWith(['/kanban']);
+      expect(routerSpy.navigate).toHaveBeenCalledWith(['/modules']);
       expect(result).toEqual(mockCredential as UserCredential);
     });
 
@@ -118,14 +124,14 @@ describe('Auth Service', () => {
   });
 
   describe('loginWithEmail', () => {
-    it('deve fazer login e navegar para o kanban em caso de sucesso', async () => {
+    it('deve fazer login e navegar para o modules em caso de sucesso', async () => {
       const mockCredential: Partial<UserCredential> = { user: fullMockUser };
       mocks.mockSignIn.mockResolvedValue(mockCredential as unknown as UserCredential);
 
       const result = await service.loginWithEmail('test@test.com', '123456');
 
       expect(mocks.mockSignIn).toHaveBeenCalledWith(mocks.mockGetAuth(), 'test@test.com', '123456');
-      expect(routerSpy.navigate).toHaveBeenCalledWith(['/kanban']);
+      expect(routerSpy.navigate).toHaveBeenCalledWith(['/modules']);
       expect(result).toEqual(mockCredential as UserCredential);
     });
 
@@ -155,6 +161,24 @@ describe('Auth Service', () => {
 
       expect(mocks.mockSignOut).toHaveBeenCalled();
       expect(routerSpy.navigate).toHaveBeenCalledWith(['/']);
+    });
+  });
+
+  describe('Signals Reativos (userRole e isAdmin)', () => {
+    it('deve retornar false para isAdmin por padrão (inicializado como "user")', () => {
+      expect(service.isAdmin()).toBe(false);
+    });
+
+    it('deve retornar true para isAdmin quando userRole incluir "admin"', () => {
+      service.userRole.set(['user', 'admin']);
+
+      expect(service.isAdmin()).toBe(true);
+    });
+
+    it('deve retornar false para isAdmin se a role "admin" for removida', () => {
+      service.userRole.set(['work-manager']);
+
+      expect(service.isAdmin()).toBe(false);
     });
   });
 });
