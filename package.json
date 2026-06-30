@@ -35,7 +35,7 @@
     "@angular/cli": "^22.0.4",
     "@angular/compiler-cli": "^22.0.4",
     "@commitlint/cli": "^21.0.2",
-    "@commitlint/config-conventional": "^21.0.2",
+    "@commitlint/config-conventional": "^21.2.0",
     "@eslint/js": "^10.0.1",
     "@softarc/native-federation-orchestrator": "^4.3.1",
     "@testing-library/angular": "^19.4.1",
