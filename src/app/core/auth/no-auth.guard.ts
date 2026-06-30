@@ -9,7 +9,7 @@ export const noAuthGuard: CanActivateFn = async () => {
   const user = await authService.waitForUser();
 
   if (user) {
-    router.navigate(['/kanban']);
+    router.navigate(['/modules']);
     return false;
   }
   return true;

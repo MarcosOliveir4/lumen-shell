@@ -1,5 +1,6 @@
 export const environment = {
   production: false,
+  apiUrl: 'http://localhost:8080/api',
   firebase: {
     apiKey: 'AIzaSyAZFH0iDisCAtE3IlFkiJG6_JMbWlOi7PQ',
     authDomain: 'lumen-544c2.firebaseapp.com',
